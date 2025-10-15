@@ -3,7 +3,7 @@ import pandas as pd
 from io import BytesIO
 import xlsxwriter 
 
-# --- Función de Procesamiento (Modificada para Streamlit) ---
+# --- Función de Procesamiento ---
 def procesar_nombres_apellidos(df):
     """
     Procesa un DataFrame separando nombres/apellidos y mantiene todas
@@ -21,13 +21,13 @@ def procesar_nombres_apellidos(df):
         'Primer Nombre', 'Segundo Nombre', 'Tercer Nombre',
         'Primer Apellido', 'Segundo Apellido'
     ]
-    # Usaremos una lista de diccionarios para recopilar las nuevas columnas
+    # Se crea una lista de diccionarios para recopilar las nuevas columnas
     filas_procesadas = []
 
     # Lista de vocablos a anexar
     vocablos_a_anexar = {'de', 'la', 'los', 'del', 'da'}
 
-    # Usaremos st.progress para mostrar el avance al usuario (UI)
+    # Creacion st.progress para mostrar el avance al usuario (UI)
     total_filas = len(df)
     progress_bar = st.progress(0)
     estado_texto = st.empty()
@@ -42,7 +42,7 @@ def procesar_nombres_apellidos(df):
         
         palabras_originales = nombre_completo.split()
 
-        # --- LÓGICA DE ANEXIÓN MEJORADA (sin cambios) ---
+        # --- LÓGICA DE ANEXIÓN MEJORADA  ---
         palabras_agrupadas = []
         i = 0
         while i < len(palabras_originales):
@@ -89,7 +89,7 @@ def procesar_nombres_apellidos(df):
             apellidos = palabras[-2:]
             nombres = palabras[:-2]
             
-        # --- FIN LÓGICA CORREGIDA ---
+        # --- FIN LÓGICA ---
         
         # Preparamos los datos de la fila (USANDO LA LISTA DE NOMBRES Y APELLIDOS RESULTANTES)
         fila_datos = {
@@ -113,10 +113,10 @@ def procesar_nombres_apellidos(df):
     columna_a_reemplazar = nombres_completos
     posicion_insercion = df.columns.get_loc(columna_a_reemplazar)
 
-    # 5. Eliminamos la columna original que acabamos de procesar.
+    # 5. Eliminamos la columna original que se acaba de procesar.
     df_resultado = df.drop(columns=[columna_a_reemplazar])
 
-    # 6. Insertamos el nuevo DataFrame separado en la posición de la columna eliminada.
+    # 6. Inserta el nuevo DataFrame separado en la posición de la columna eliminada.
     for i, col_name in enumerate(columnas_separadas):
         df_resultado.insert(posicion_insercion + i, col_name, df_separado[col_name])
 
@@ -150,7 +150,7 @@ llamada **`NOMBRE_COMPLETO`** y separará los nombres y apellidos en nuevas colu
 manteniendo el resto de tu data intacta.
 """)
 
-# --- Entrada de archivo (El corazón de la UI) ---
+# --- Entrada de archivo (El alma de la UI) ---
 uploaded_file = st.file_uploader(
     "1. Carga tu archivo Excel aquí:", 
     type=['xlsx']
